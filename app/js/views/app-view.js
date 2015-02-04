@@ -97,12 +97,12 @@ var AppView = Backbone.View.extend({
 			
 							var profileImage = $("ul.user-profiles li img[data-email='" + e.target.id + "']");
 	
-							if(e.target.connections[0].presence.toLowerCase() === "available") {
+							if(e.target.presence.toLowerCase() === "available") {
 								console.log("available");
 								profileImage.fadeTo("slow", 1);
 							}
 	
-							if(e.target.connections[0].presence.toLowerCase() === "away") {
+							if(e.target.presence.toLowerCase() === "away") {
 								console.log("away");
 								profileImage.fadeTo("slow", 0.3);
 							}
@@ -215,7 +215,7 @@ var AppView = Backbone.View.extend({
 		
 		// connect to Respoke
 		this.client.connect({
-			resolveEndpointPresence: this.resolveEndpointPresence,
+			//resolveEndpointPresence: this.resolveEndpointPresence,
 			token: token // Use this in production like you would use appId during development mode.
 		});
 	},
