@@ -1,0 +1,23 @@
+{
+  "name": "respoke-auth",
+  "version": "1.0.0",
+  "description": "Demo application of how to authenticate with the Respoke API.",
+  "main": "server.js",
+  "scripts": {
+    "start": "gulp"
+  },
+  "author": "The Respoke Team",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.9.2",
+    "express": "^4.10.2",
+    "respoke-admin": "^1.0.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-connect": "^2.2.0",
+    "gulp-develop-server": "^0.2.5",
+    "gulp-open": "^0.3.1",
+    "run-sequence": "^1.0.2"
+  }
+}

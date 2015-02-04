@@ -1,0 +1,210 @@
+  <!DOCTYPE HTML>
+<html>
+<head>
+  <title>The Interview</title>
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel='stylesheet' type='text/css' />
+  <link href="/bower_components/font-awesome/css/font-awesome.css" rel="stylesheet" type='text/css'>
+  <link href="css/style.css" rel='stylesheet' type='text/css' />
+  
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/jquery-migrate/jquery-migrate.js"></script>
+  <script src="/bower_components/underscore/underscore.js"></script>
+  <script src="/bower_components/backbone/backbone.js"></script>
+  <script src="/bower_components/json2/json2.js"></script>
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="/bower_components/gravatarjs/gravatar.js"></script>
+  <script src="/bower_components/moment/moment.js"></script>
+  <script src="/bower_components/store-js/store.js"></script>
+  <script src="https://cdn.respoke.io/respoke.min.js"></script>
+  <!--<script src="js/vendors/respoke.min.js"></script>-->
+  <script src="/bower_components/raphael/raphael.js"></script>
+  <script src="js/vendors/raphael.sketchpad.js"></script>
+  
+  <script src="js/models/member.js"></script>
+  <script src="js/models/message.js"></script>
+  <script src="js/collections/members.js"></script>
+  <script src="js/collections/messages.js"></script>
+  <script src="js/views/app-view.js"></script>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body id="theinterview">
+<div class="container">
+  <div class="top-header">
+    <div class="logo">
+      <span>The Interview</span>
+    </div>
+
+    <div class="usernotifications">
+      <ul class="user-profiles list-unstyled">
+				<script id="ProfileTmpl" type="text/template">
+          <li class="profile-image pointer">
+              <img src="{{image}}" width="35" data-email="{{email}}" />
+          </li>
+        </script>
+			</ul>
+      
+			<!--<ul class="notification list-unstyled">
+				<li><i class="fa fa-phone fa-2x pointer voiceCall"></i></li>
+			</ul>
+      
+			<ul class="notification list-unstyled">
+				<li><i class="fa fa-video-camera fa-2x pointer videoCall"></i></li>
+			</ul>-->
+
+      <!--<ul class="list-unstyled">
+        <li><i class="fa fa-sign-out fa-1x pointer logout"></i></li>
+      </ul>-->
+        <ul class="logout list-unstyled">
+        		<li><a href="#"><span> </span></a></li>
+        </ul>
+    </div>
+    <div class="clearfix"> </div>
+  </div><!--top-header-->
+
+  <div class="clearfix"> </div>
+  
+  <div class="content">
+    <div class="2-cols">
+      <div class="col-1 col-md-6 whiteboard">
+        <div class="col-2-grid-3 alert-box text-center">
+          <div class="toggle">
+            <i class="fa fa-toggle-off pointer" alt="Switch to video display" title="Switch to video display"></i>
+            <i class="fa fa-toggle-on pointer" alt="Switch to whiteboard display" title="Switch to withboard display" style="display: none;"></i>
+          </div>
+          
+          <div class="clearfix"> </div>
+          
+          <div id="card">
+            <div class="front">
+              <div id="whiteboard-canvas" class="whiteboard-canvas" style="display: none;"></div>
+          
+              <div class="clearfix"> </div>
+          
+              <span class="whiteboard-message">
+                <img src="images/right-icon.png" title="check" alt="" />
+                <h3>Whiteboard</h3>
+                <p>Click to start using this area as the whiteboard.</p>
+              </span>
+              
+              <span class="a-alert start-whiteboard">Get Started</span>
+            </div>
+            <div class="back" style="display: none;">
+              <span class="whiteboard-video">
+                <h3>Real-Time Video</h3>
+                <p>Start a video call with an interview member.</p>
+                <div class="video-box">
+                  <ul class="video-controls" style="display: none;">
+                    <li class="toggleVideoMute"><i class="fa fa-microphone pointer"></i> <i class="fa fa-microphone-slash pointer" style="display: none;"></i></li>
+                    <li class="toggleVideo"><i class="fa fa-video-camera pointer"></i></li>
+                    <li class="hangupVideo"><i class="fa fa-stop"></i></li>
+                  </ul>
+                  <video id="remoteVideo"></video>
+                  <video id="localVideo"></video>
+                </div>
+              </span>
+            </div>
+          </div>
+          
+          <div class="clearfix"> </div>
+          
+          
+          
+          <br><br>
+          
+          <!----msg-type-box---->
+					<div class="msg-type-box">
+            <form>
+							<input class="send-msg-box" type="text" value="Type your message..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Type your message...';}">
+              
+              <span class="send-msg">
+                <i class="fa fa-mail-forward fa-1x pointer"></i>  Send
+              </span>
+							<!--<input type="submit" value="Send" />-->
+            </form>
+					</div>
+					<!--//msg-type-box---->
+        </div>
+
+        <div class="clearfix"> </div>
+      </div>
+
+      <div class="col-md-6 col-3 messages">
+        <div class="col-1 col-md-9 col-lg-offset-2 signin">
+          <div class="sign-in-box">
+            <h2>Join Your Interview</h2>
+              <form>
+                <div class="text-boxs">
+                  <span class="text-box">
+                    <label class="s-user"> </label>
+                    <input type="text" placeholder="Name" required class="signin-name" /> 
+                    <div class="clearfix"></div>
+                  </span>
+                
+                  <span class="text-box">
+                    <label class="s-lock"> </label>
+                    <input type="text" placeholder="Email" required class="signin-email" /> 
+                    <div class="clearfix"></div>
+                  </span>
+                </div>
+              
+                <input class="join-interview" type="submit" value="join interview" />
+              </form>
+            
+              <!--<p class="not-member">
+              <a class="member-sign" href="#"> Not a member?</a> <a class="member-signup" href="#">sign Up Now <span> </span></a>-->
+            </p>
+          </div><!--sign-in-box-->
+        </div><!--col-1-->
+	
+    		<script id="MessageTmpl" type="text/template">
+          <div class="col-3-grid-5 timer-note message" data-email="{{email}}" data-id="{{id}}">
+            <div class="col-md-3 timer-people">
+              <img src="{{image}}" title="name" alt=""/>
+            </div>
+  
+            <div class="col-md-9 timer-info">
+              <h3 class="t-name">{{name}}</h3>
+              <span class="t-time">
+                <i class="fa fa-phone pointer voiceCall" data-email="{{email}}"></i> 
+                <i class="fa fa-video-camera pointer videoCall" data-email="{{email}}"></i> 
+                <i class="fa fa-desktop pointer screenShare" data-email="{{email}}"></i> 
+                <i class="fa fa-clock-o"></i> {{timestamp}}</span>
+              <div class="clearfix"></div>
+              <p>{{message}}</p>
+              <b class="t-arrow"> </b>
+            </div>
+            <div class="clearfix"> </div>
+          </div><!--message-->
+    		</script>
+        
+        <!--<div class="col-3-grid-5 timer-note message">
+          <div class="col-md-3 timer-people">
+            <img src="images/01.jpg" title="name" alt=""/>
+          </div>
+  
+          <div class="col-md-9 timer-info">
+            <h3 class="t-name"> Patel Banoni</h3>
+            <span class="t-time"><i class="fa fa-phone pointer voiceCall"></i> <i class="fa fa-video-camera pointer videoCall"></i> <i class="fa fa-clock-o"></i> 4:35</span>
+            <div class="clearfix"></div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dapibus dui id libero auctor cursus.</p>
+            <b class="t-arrow"> </b>
+          </div>
+          <div class="clearfix"> </div>
+        </div>--><!--message-->
+
+        
+      </div>
+      
+      <div class="copy-right">
+      <p></p>
+      </div>
+
+      <div class="clearfix"> </div>
+
+    </div><!--2-cols-->
+  </div><!--content-->
+</div><!--container-->
+</body>
+</html>
+
