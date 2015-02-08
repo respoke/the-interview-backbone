@@ -1,4 +1,4 @@
-  <!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html>
 <head>
   <title>The Interview</title>
@@ -16,10 +16,10 @@
   <script src="/bower_components/moment/moment.js"></script>
   <script src="/bower_components/store-js/store.js"></script>
   <script src="https://cdn.respoke.io/respoke.min.js"></script>
-  <!--<script src="js/vendors/respoke.min.js"></script>-->
   <script src="/bower_components/raphael/raphael.js"></script>
   <script src="js/vendors/raphael.sketchpad.js"></script>
   
+  <script src="js/config.js"></script>
   <script src="js/models/member.js"></script>
   <script src="js/models/message.js"></script>
   <script src="js/collections/members.js"></script>
@@ -44,20 +44,11 @@
         </script>
 			</ul>
       
-			<!--<ul class="notification list-unstyled">
-				<li><i class="fa fa-phone fa-2x pointer voiceCall"></i></li>
-			</ul>
-      
-			<ul class="notification list-unstyled">
-				<li><i class="fa fa-video-camera fa-2x pointer videoCall"></i></li>
-			</ul>-->
-
-      <!--<ul class="list-unstyled">
-        <li><i class="fa fa-sign-out fa-1x pointer logout"></i></li>
-      </ul>-->
-        <ul class="logout list-unstyled">
-        		<li><a href="#"><span> </span></a></li>
-        </ul>
+      <ul class="logout list-unstyled">
+      		<li>
+            <a href="#"><span> </span></a>
+          </li>
+      </ul>
     </div>
     <div class="clearfix"> </div>
   </div><!--top-header-->
@@ -95,9 +86,15 @@
                 <p>Start a video call with an interview member.</p>
                 <div class="video-box">
                   <ul class="video-controls" style="display: none;">
-                    <li class="toggleVideoMute"><i class="fa fa-microphone pointer"></i> <i class="fa fa-microphone-slash pointer" style="display: none;"></i></li>
-                    <li class="toggleVideo"><i class="fa fa-video-camera pointer"></i></li>
-                    <li class="hangupVideo"><i class="fa fa-stop"></i></li>
+                    <li class="toggleVideoMute">
+                      <i class="fa fa-microphone pointer"></i> <i class="fa fa-microphone-slash pointer" style="display: none;"></i>
+                    </li>
+                    <li class="toggleVideo">
+                      <i class="fa fa-video-camera pointer"></i>
+                    </li>
+                    <li class="hangupVideo">
+                      <i class="fa fa-stop"></i>
+                    </li>
                   </ul>
                   <video id="remoteVideo"></video>
                   <video id="localVideo"></video>
@@ -107,8 +104,6 @@
           </div>
           
           <div class="clearfix"> </div>
-          
-          
           
           <br><br>
           
@@ -176,24 +171,7 @@
             </div>
             <div class="clearfix"> </div>
           </div><!--message-->
-    		</script>
-        
-        <!--<div class="col-3-grid-5 timer-note message">
-          <div class="col-md-3 timer-people">
-            <img src="images/01.jpg" title="name" alt=""/>
-          </div>
-  
-          <div class="col-md-9 timer-info">
-            <h3 class="t-name"> Patel Banoni</h3>
-            <span class="t-time"><i class="fa fa-phone pointer voiceCall"></i> <i class="fa fa-video-camera pointer videoCall"></i> <i class="fa fa-clock-o"></i> 4:35</span>
-            <div class="clearfix"></div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dapibus dui id libero auctor cursus.</p>
-            <b class="t-arrow"> </b>
-          </div>
-          <div class="clearfix"> </div>
-        </div>--><!--message-->
-
-        
+    		</script>        
       </div>
       
       <div class="copy-right">

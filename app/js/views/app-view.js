@@ -1,8 +1,4 @@
 jQuery(document).ready(function($) {
-
-_.templateSettings = {
-  interpolate: /\{\{(.+?)\}\}/g
-};
  
 var AppView = Backbone.View.extend({
 	el: $("#theinterview"),
@@ -52,15 +48,6 @@ var AppView = Backbone.View.extend({
 				onSuccess: function(group) {
 					_this.group = group;
 					
-					//_this.client.setOnline();
-					//_this.client.setPresence({ presence: "available" });
-					
-					//Presence (client)
-					//console.log("the-interview-room", group);
-					//_this.setPresenceListener(_this.client.endpointId, _this);
-					
-					//A callback to receive notifications every time a new
-					// endpoint has joined the group. This callback does not get called when the client joins the group.
 	                _this.group.listen("join", function(e) {
 	                	_this.onMemberJoin(e, _this);
 	                });
@@ -76,45 +63,6 @@ var AppView = Backbone.View.extend({
 							_this.renderGroup(connections, _this);
 						}
 					});
-				},
-				
-				onJoin: function(e) { //Callback for when this client's endpoint joins a group.
-					console.log("onJoin", e);
-					
-					var endpointId = e.connection.endpointId;
-					
-					_this.endpoints[endpointId] = _this.client.getEndpoint({ id: endpointId });
-		
-					if(!_this.endpoints[endpointId].hasListeners("presence")) {
-						console.log("onJoin presence");
-						console.log("onJoin setPresenceListener", endpointId);
-						
-						_this.endpoints[endpointId].listen("presence", function (e) {
-							console.log("onJoin presence for endpoint", e);
-
-							//$rootScope.recents[endpt].presence = evt.presence;
-							//$scope.$apply();
-			
-							var profileImage = $("ul.user-profiles li img[data-email='" + e.target.id + "']");
-	
-							if(e.target.presence.toLowerCase() === "available") {
-								console.log("available");
-								profileImage.fadeTo("slow", 1);
-							}
-	
-							if(e.target.presence.toLowerCase() === "away") {
-								console.log("away");
-								profileImage.fadeTo("slow", 0.3);
-							}
-						});
-					}
-					
-					_this.client.setPresence({ presence: "available" });
-					
-					//_this.setPresenceListener(e.connection.endpointId, _this);
-					
-					//Presence (group members)
-					//_this.setPresenceListener(e.connection.endpointId, _this);
 				}
 			});
 		});
@@ -215,7 +163,6 @@ var AppView = Backbone.View.extend({
 		
 		// connect to Respoke
 		this.client.connect({
-			//resolveEndpointPresence: this.resolveEndpointPresence,
 			token: token // Use this in production like you would use appId during development mode.
 		});
 	},
@@ -242,9 +189,6 @@ var AppView = Backbone.View.extend({
 		console.log("renderGroup", connections, _this);
 		
 		_.each(connections, function(connection) {
-			
-			connection.getEndpoint().setPresence({ presence: "available", connectionId: connection.id });
-			
 			_this.renderGroupMember(connection.getEndpoint(), _this);
 		});
 	},
@@ -261,93 +205,33 @@ var AppView = Backbone.View.extend({
 		
 		this.members.add(member);
 		
-		
-		
-		//_this.setPresenceListener(endpoint.id, _this);
-
+		//Endpoint Presence for Group Members
 		_this.endpoints[endpoint.id] = _this.client.getEndpoint({ id: endpoint.id });
-		
-		if(!_this.endpoints[endpoint.id].hasListeners("presence") && _this.client.endpointId !== endpoint.id) {
-			console.log("renderGroupMember presence");
-			console.log("renderGroupMember setPresenceListener", endpoint.id);
-			
-			endpoint.listen("presence", function (e) {
-				console.log("renderGroupMember presence for endpoint", e);
 
-				//$rootScope.recents[endpt].presence = evt.presence;
-				//$scope.$apply();
-			
-				var profileImage = $("ul.user-profiles li img[data-email='" + e.target.id + "']");
-	
-				if(e.target.presence.toLowerCase() === "available") {
-					console.log("available");
-					profileImage.fadeTo("slow", 1);
-				}
-	
-				if(e.target.presence.toLowerCase() === "away") {
-					console.log("away");
-					profileImage.fadeTo("slow", 0.3);
-				}
-			});
-		}
+		console.log("renderGroupMember presence");
+		console.log("renderGroupMember setPresenceListener", endpoint.id);
+		
+		endpoint.listen("presence", function (e) {
+			console.log("renderGroupMember presence for endpoint", e);
+
+			var profileImage = $("ul.user-profiles li img[data-email='" + e.target.id + "']");
+
+			if(e.target.presence.toLowerCase() === "available") {
+				console.log("available");
+				profileImage.fadeTo("slow", 1);
+			}
+
+			if(e.target.presence.toLowerCase() === "away") {
+				console.log("away");
+				profileImage.fadeTo("slow", 0.3);
+			}
+		});
 		
 		$(".user-profiles").append(_.template($("#ProfileTmpl").html())(member.toJSON())); //Add the Profile to the View
 	},
 	
-	setPresenceListener: function(endpointId, _this) {
-		//console.log("setPresenceListener", endpointId);
-		
-		/*var endpoint = _this.client.getEndpoint({ 
-			id: endpointId,
-			onPresence: function(e) {
-				console.log("presence for endpoint", e);
-
-				//$rootScope.recents[endpt].presence = evt.presence;
-				//$scope.$apply();
-			
-				var profileImage = $("ul.user-profiles li img[data-email='" + e.target.id + "']");
-	
-				if(e.target.presence.toLowerCase() === "available") {
-					console.log("available");
-					profileImage.fadeTo("slow", 1);
-				}
-	
-				if(e.target.presence.toLowerCase() === "away") {
-					console.log("away");
-					profileImage.fadeTo("slow", 0.3);
-				}
-			}
-		});*/
-		
-		var endpoint = _this.client.getEndpoint({ id: endpointId });
-		
-		if(!endpoint.hasListeners("presence") && _this.client.endpointId !== endpointId) {
-			console.log("setPresenceListener presence");
-			console.log("setPresenceListener", endpointId);
-			
-			endpoint.listen("presence", function (e) {
-				console.log("setPresenceListener presence for endpoint", e);
-
-				//$rootScope.recents[endpt].presence = evt.presence;
-				//$scope.$apply();
-			
-				var profileImage = $("ul.user-profiles li img[data-email='" + e.target.id + "']");
-	
-				if(e.target.presence.toLowerCase() === "available") {
-					console.log("available");
-					profileImage.fadeTo("slow", 1);
-				}
-	
-				if(e.target.presence.toLowerCase() === "away") {
-					console.log("away");
-					profileImage.fadeTo("slow", 0.3);
-				}
-			});
-		}
-	},
-	
 	removeGroupMember: function(endpoint) {
-		//console.log("removeGroupMember endpoint", endpoint);
+		console.log("removeGroupMember endpoint", endpoint);
 		
 		$("ul.user-profiles li img[data-email='" + endpoint.id +"']").parent().remove();
 	},
@@ -379,27 +263,11 @@ var AppView = Backbone.View.extend({
 		var _this = this;
 		
 		if(this.client.presence.toLowerCase() === "available") {
-			//Set client presence
+			//Set client presence which will call the corresponding 
+			//endpoint presence for the rest of the group.
             this.client.setPresence({
-                //presence: "unavailable" //bad
 				presence: "away"
             });
-			
-			//Set remote presence
-			/*var member = this.members.find(function(member) {
-				return member.get("endpointId") === _this.client.endpointId;
-			});
-			
-			console.log("togglePresence member", member);
-			
-			var endpoint = member.get("endpoint");
-			
-			console.log("togglePresence endpoint", endpoint);
-			
-			endpoint.setPresence({
-				presence: "away",
-				connectionId: endpoint.getConnection().id
-			});*/
 		}
 		
 		if(this.client.presence.toLowerCase() === "away") {
@@ -485,9 +353,9 @@ var AppView = Backbone.View.extend({
 	toggle: function(e) {
 		console.log("toggle");
 		
-		/*if(!this.member.has("name")) {
+		if(!this.member.has("name")) {
 			return;
-		}*/
+		}
 		
 		$(".fa-toggle-on, .fa-toggle-off").toggle();
 		
