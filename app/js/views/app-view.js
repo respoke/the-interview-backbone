@@ -355,7 +355,7 @@ var AppView = Backbone.View.extend({
 		var _this = this;
 		
 		if(!this.member.has("name")) {
-			//return;
+			return;
 		}
 		
 		$(".fa-toggle-on, .fa-toggle-off").toggle();
@@ -382,7 +382,6 @@ var AppView = Backbone.View.extend({
 				console.log("getUserMedia error: ", error);
 			});
 		} else {
-			console.log("turn off camera");
 			this.localStream.stop();
 		}
 		
