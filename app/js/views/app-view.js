@@ -352,14 +352,40 @@ var AppView = Backbone.View.extend({
 	
 	toggle: function(e) {
 		console.log("toggle");
+		var _this = this;
 		
 		if(!this.member.has("name")) {
-			return;
+			//return;
 		}
 		
 		$(".fa-toggle-on, .fa-toggle-off").toggle();
 		
 		$(".front, .back").toggle();
+		
+		
+		// Turn on the camera
+		if($(".fa-toggle-on").is(":visible")) {
+			var constraints = {
+				audio: true,
+				video: true
+			};
+			
+			getUserMedia(constraints, function(stream) {
+				var localVideo = document.getElementById("localVideo");
+			
+				_this.localStream = stream;
+				attachMediaStream(localVideo, stream);
+			
+				localVideo.play();
+			
+			}, function(error){
+				console.log("getUserMedia error: ", error);
+			});
+		} else {
+			console.log("turn off camera");
+			this.localStream.stop();
+		}
+		
 	},
 	
 	voiceCall: function(e) {
