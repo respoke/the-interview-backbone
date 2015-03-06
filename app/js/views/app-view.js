@@ -35,7 +35,11 @@ var AppView = Backbone.View.extend({
 		// Event Listeners
 		this.listenTo(this.member, "sync", this.connect);
 		
-		this.client.listen("message", this.handleMessages);
+		this.client.listen("message", function(e){
+			console.log("client.listen#message: ", e);
+
+			_this.handleMessages(e);
+		});
 		
 	    this.client.listen("connect", function(client) {
 			console.log("Connected to Respoke!", client);
@@ -43,7 +47,7 @@ var AppView = Backbone.View.extend({
 			_this.client.setPresence({ presence: "available" });
 			
 			_this.client.join({
-				id: "the-interview-room", 
+				id: "the-interview-83938", 
 				
 				onSuccess: function(group) {
 					_this.group = group;
@@ -91,7 +95,7 @@ var AppView = Backbone.View.extend({
 			var call = e.call;
 			
 			if (call.caller !== true) {
-				call.answer({
+				_this.call = call.answer({
 					videoLocalElement: document.getElementById("localVideo"),
 					videoRemoteElement: document.getElementById("remoteVideo")
 				});
@@ -108,6 +112,90 @@ var AppView = Backbone.View.extend({
 		    	//$('#callControls').hide();
 		  	});
 		});
+		
+		this.count = 0;
+		this.totalMessageLength = 0;
+		this.messageData = [];
+		this.prevMessage = [];
+		
+		this.client.listen("direct-connection", function(e) {
+		     var directConnection = e.directConnection;
+			 
+		     directConnection.accept();
+			 
+		     directConnection.listen("open", function(e) {
+				console.log("direct-connection open", e);
+
+				var remoteEndpointId = e.target.remoteEndpoint.id;
+		
+				var localEndpointId = _this.member.get("email");
+
+				$("i.directConnection[data-email='"+ remoteEndpointId +"']").each(function(){
+					$(this).removeClass("fa-spinner").addClass("fa-lock").css("color", "rgb(33, 184, 198)");
+				});
+
+				$("i.directConnection[data-email='"+ localEndpointId +"']").each(function(){
+					$(this).removeClass("fa-spinner").addClass("fa-lock").css("color", "rgb(33, 184, 198)");
+				});
+				
+				$(".send-msg-box").prop("disabled", false);
+				$(".send-msg").prop("disabled", false);
+		     });
+			 
+		     directConnection.listen("close", function(e) {
+				 console.log("direct-connection close", e);
+		         directConnection = null;
+		     });
+			 
+
+			directConnection.listen("message", function(e){
+				console.log("directConnection.listen#message e:", e);
+				console.log("directConnection.listen#message count:", _this.count);
+
+				var message = e.message.message;
+				console.log("Is Data Duplicate?", (message == _this.prevMessage.join("")));
+					
+				if(message != _this.prevMessage.join("")) {
+					console.log("direct-connection event:", e);
+
+					if(_this.count === 0) {
+						_this.totalMessageLength = message;
+						console.log("direct-connection _this.totalMessageLength:", _this.totalMessageLength);
+					} else {
+						console.log("messsage lengths");
+						console.log(_this.messageData.join("").length, _this.totalMessageLength);
+						
+						if(_this.messageData.join("").length >= _this.totalMessageLength) {
+							clearInterval(window.intervalId);
+							
+							var event = {
+								message: {
+									message: _this.messageData.join("")
+								}
+							};
+							
+							_this.handleMessages(event);
+						} else {
+							_this.messageData.push(message);
+							console.log("direct-connection _this.messageData.length:", _this.messageData.join("").length);
+						}
+						
+					}
+				}
+				
+				_this.prevMessage.push(message);
+				_this.count++;	
+			});
+			// but not both
+			
+			// Used only client.listen#message and recieved no message
+			// but directConnect.listen#message seems to fire itself and client.listen#message...This could be a BUG.
+		});
+		
+		// Filesharing events
+		$(".messages").on("dragover drop", ".message", this.dragDrop);
+		
+		$(".messages").on("dragleave", ".message", this.dragLeave);
     },
 
     // Map events to handler functions
@@ -118,6 +206,7 @@ var AppView = Backbone.View.extend({
 		"click .voiceCall"				: "voiceCall",
 		"click .videoCall"				: "videoCall",
 		"click .screenShare"			: "screenShare",
+		"click .directConnection"		: "directConnection",
 		"click .logout"					: "logout",
 		"submit .signin form"			: "signin",
 		"click .reset"					: "reset",
@@ -297,6 +386,8 @@ var AppView = Backbone.View.extend({
 			id: message.guid(),
 			image: this.member.get("image"),
 			timestamp: moment().format('h:mm'),
+			src: "",
+			title: "",
 			type: "message"
 		});
 		
@@ -307,9 +398,9 @@ var AppView = Backbone.View.extend({
 	},
 	
 	handleMessages: function(e) {
-		var message = e.message.message;
-
 		console.log("messages: ", e);
+		
+		var message = e.message.message;
 		
 		var messageTypes = {
 			"message": function(message) {
@@ -327,6 +418,120 @@ var AppView = Backbone.View.extend({
 				window.sketchpad.strokes(message.whiteboard);
 			}
 		}[message.type](message);
+	},
+	
+	dragDrop: function(e) {
+		console.log("dragover drop: ", e);
+		var _this = window.appView;
+		var el = this;
+		e.stopPropagation();
+		e.preventDefault();
+				
+		$(this).jrumble({
+			x: 1,
+			y: 0,
+			rotation: 0
+		});
+	
+		$(this).trigger("startRumble");
+		
+		if(e.type === "drop") {
+			var dataTransfer = e.originalEvent.dataTransfer;
+			dataTransfer.dropEffect = "copy";
+			
+			var files = dataTransfer.files;
+			console.log("drop files: ", files);
+			
+			
+			
+			_.each(files, function(file){
+				var fileReader = new FileReader();
+		
+				fileReader.onload = (function(file, el) {
+					return function(e) {
+						console.log("fileReader.onload e: ", e);
+						console.log("fileReader.onload file: ", file);
+						console.log("member: ", _this.member);
+
+
+						var msg = ["<img class='thumb' src='", e.target.result,
+								   "' title='", file.name, "' width='420'", "/>"].join("");
+						
+						var message = new Message();
+		
+						message.set({
+							email: _this.member.get("email"),
+							name: _this.member.get("name"),
+							message: msg,
+							id: message.guid(),
+							image: _this.member.get("image"),
+							timestamp: moment().format('h:mm'),
+							type: "message"
+						});
+		
+						$(".messages").append(_.template($("#MessageTmpl").html())(message.toJSON())); //Add the Message to the View
+						
+						//Send message to endpointId using DirectConnect
+						//directConnection.sendMessage({message: message.toJSON()});
+						var remoteEndpointId = $(el).data("email");
+						console.log("drop email: ", remoteEndpointId);
+						console.log("message length", JSON.stringify(message).length);
+						
+						
+						var remoteEndpoint = _this.client.getEndpoint({
+							id: remoteEndpointId
+						});
+			
+						var directConnection = remoteEndpoint.startDirectConnection({
+							onOpen: function(e) {
+								_this.chunkify(e, message);
+							}
+						});
+						
+						console.log("directConnection: ", directConnection);
+					};
+				})(file, el);
+			
+				fileReader.readAsDataURL(file);
+			});
+			
+			
+			
+			$(this).trigger("stopRumble");
+		}
+	},
+	
+	dragLeave: function(e) {
+		$(this).trigger("stopRumble");
+	},
+	
+	chunkify: function(e, message) {
+		var _this = window.appView;
+		var chunkLength = 10000;
+		
+		var data = JSON.stringify(message);
+		var chunk = "";
+		
+		//Send total message length
+		if(_this.count === 0) {
+			e.target.sendMessage({ message: JSON.stringify(message).length });
+		}
+		
+		if(data.length > chunkLength) {
+			chunk = data.slice(0, chunkLength);
+		} else {
+			chunk = data;
+		}
+	
+		e.target.sendMessage({ message: chunk });
+		
+		var remainingDataURL = data.slice(chunk.length);
+		
+	    if (remainingDataURL.length) {
+			setTimeout(function () {
+		        chunkify(e, remainingDataURL); // continue transmitting
+		    }, 500);
+	    } 
 	},
 	
 	startWhiteboard: function(e) {
@@ -355,7 +560,7 @@ var AppView = Backbone.View.extend({
 		var _this = this;
 		
 		if(!this.member.has("name")) {
-			return;
+			//return;
 		}
 		
 		$(".fa-toggle-on, .fa-toggle-off").toggle();
@@ -365,6 +570,23 @@ var AppView = Backbone.View.extend({
 		
 		// Turn on the camera
 		if($(".fa-toggle-on").is(":visible")) {
+			/*var state = {};
+			state.receiveOnly = false;
+            localMedia = respoke.LocalMedia({
+                state: state,
+                instanceId: 'blah',
+                callId: 'blah',
+                hasScreenShare: false,
+                constraints: {
+                    audio: true,
+                    video: true,
+                    mandatory: [],
+                    optional: {}
+                }
+            });
+			
+			localMedia.start();*/
+								
 			var constraints = {
 				audio: true,
 				video: true
@@ -382,9 +604,53 @@ var AppView = Backbone.View.extend({
 				console.log("getUserMedia error: ", error);
 			});
 		} else {
-			this.localStream.stop();
+			if(this.localStream) {
+				this.localStream.stop();
+			}
+			
+			if(this.call) {
+				this.call.hangup();
+			}
 		}
 		
+	},
+	
+	directConnection: function(e) {
+		console.log("directConnection");
+		
+		$(".send-msg-box").prop("disabled", true);
+		$(".send-msg").prop("disabled", true);
+		
+		var remoteEndpointId = $(e.currentTarget).data("email");
+		console.log(remoteEndpointId);
+		
+		var localEndpointId = this.member.get("email");
+		console.log(localEndpointId);
+		
+		$("i.directConnection[data-email='"+ remoteEndpointId +"']").each(function(){
+			//console.log("the elements:");
+			//console.log($(this));
+			$(this).removeClass("fa-lock").addClass("fa-spinner");
+		});
+		
+		$("i.directConnection[data-email='"+ localEndpointId +"']").each(function(){
+			//console.log("the elements:");
+			//console.log($(this));
+			$(this).removeClass("fa-lock").addClass("fa-spinner");
+		});
+		
+		var remoteEndpoint = this.client.getEndpoint({
+			id: remoteEndpointId
+		});
+		
+		remoteEndpoint.startDirectConnection({
+			onSuccess: function(directConnection) {
+				console.log("startDirectConnection onSuccess:", directConnection);
+				console.log("startDirectConnection this:", this);
+				console.log("startDirectConnection window:", window);
+				this.directConnection = directConnection;
+			}
+		});
 	},
 	
 	voiceCall: function(e) {
@@ -397,14 +663,13 @@ var AppView = Backbone.View.extend({
 		$(".back").show();
 		
 		var email = $(e.currentTarget).data("email");
-		
 		console.log(email);
 		
 		var remoteEndpoint = this.client.getEndpoint({
 			id: email
 		});
 		
-		remoteEndpoint.startAudioCall({
+		this.call = remoteEndpoint.startAudioCall({
 			videoLocalElement: document.getElementById("localVideo"),
 			videoRemoteElement: document.getElementById("remoteVideo")
 		});
@@ -445,7 +710,7 @@ var AppView = Backbone.View.extend({
 			videoRemoteElement: document.getElementById("remoteVideo")
 		});*/
 			
-		remoteEndpoint.startVideoCall({
+		this.call = remoteEndpoint.startVideoCall({
 			videoLocalElement: document.getElementById("localVideo"),
 			videoRemoteElement: document.getElementById("remoteVideo")
 		});
@@ -468,7 +733,7 @@ var AppView = Backbone.View.extend({
 			id: email
 		});
 		
-		remoteEndpoint.startScreenShare({
+		this.call = remoteEndpoint.startScreenShare({
 			videoLocalElement: document.getElementById("localVideo"),
 			videoRemoteElement: document.getElementById("remoteVideo")
 		});

@@ -15,7 +15,9 @@
   <script src="/bower_components/gravatarjs/gravatar.js"></script>
   <script src="/bower_components/moment/moment.js"></script>
   <script src="/bower_components/store-js/store.js"></script>
-  <script src="https://cdn.respoke.io/respoke.min.js"></script>
+  <script src="/bower_components/jrumble/jquery.jrumble.js"></script>
+  <!--<script src="https://cdn.respoke.io/respoke.min.js"></script>-->
+  <script src="/bower_components/respoke/respoke.min.js"></script>
   <script src="/bower_components/raphael/raphael.js"></script>
   <script src="js/vendors/raphael.sketchpad.js"></script>
   
@@ -125,7 +127,7 @@
       </div>
 
       <div class="col-md-6 col-3 messages">
-        <div class="col-1 col-md-9 col-lg-offset-2 signin">
+        <div class="col-1 col-md-16 col-lg-offset-2 signin">
           <div class="sign-in-box">
             <h2>Join Your Interview</h2>
               <form>
@@ -161,6 +163,7 @@
             <div class="col-md-9 timer-info">
               <h3 class="t-name">{{name}}</h3>
               <span class="t-time">
+                <i class="fa fa-lock pointer directConnection" data-email="{{email}}"></i>
                 <i class="fa fa-phone pointer voiceCall" data-email="{{email}}"></i> 
                 <i class="fa fa-video-camera pointer videoCall" data-email="{{email}}"></i> 
                 <i class="fa fa-desktop pointer screenShare" data-email="{{email}}"></i> 
