@@ -46,6 +46,8 @@ var AppView = Backbone.View.extend({
 	    this.client.listen("connect", function(client) {
 			console.log("Connected to Respoke!", client);
 			
+			$(".operations").show();
+			
 			_this.client.setPresence({ presence: "available" });
 			
 			_this.client.join({
@@ -203,6 +205,7 @@ var AppView = Backbone.View.extend({
 		"click .videoCall"				: "videoCall",
 		"click .screenShare"			: "screenShare",
 		"click .directConnection"		: "startDirectConnection",
+		"click .asterisk"				: "asterisk",
 		"click .logout"					: "logout",
 		"submit .signin form"			: "signin",
 		"click .reset"					: "reset",
@@ -648,6 +651,14 @@ var AppView = Backbone.View.extend({
 		
 			remoteEndpoint.startDirectConnection();
 		}
+	},
+	
+	asterisk: function(e) {
+		console.log("asterisk");
+		
+		this.call = this.client.startAudioCall({
+			endpointId: "sales"
+		});
 	},
 	
 	voiceCall: function(e) {

@@ -85,7 +85,7 @@ body a{
 	font-size: 1.3em;
 	 font-family: 'Raleway-SemiBold';
 }
-.usernotifications ul{
+.usernotifications ul {
 	float:left;
 	margin-left:1.5em;
 	margin-bottom:0;
@@ -93,6 +93,19 @@ body a{
 
 .usernotifications ul li {
 	float: left;
+}
+
+ul.operations {
+	float: left;
+	position: absolute;
+	list-style-type: none;
+	margin-top: 6px;
+}
+
+ul.operations li {
+	float: left;
+	position: absolute;
+	color: #7D8E9A;
 }
 
 .user-profiles{
