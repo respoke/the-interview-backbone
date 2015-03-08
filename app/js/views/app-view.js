@@ -169,11 +169,11 @@ var AppView = Backbone.View.extend({
  				var localEndpointId = _this.member.get("email");
 
  				$("i.directConnection[data-email='"+ remoteEndpointId +"']").each(function(){
- 					$(this).removeClass("fa-spinner").addClass("fa-lock");
+ 					$(this).removeClass("fa-spinner").removeClass("fa-lock").addClass("fa-lock").css("color", "");
  				});
 
  				$("i.directConnection[data-email='"+ localEndpointId +"']").each(function(){
- 					$(this).removeClass("fa-spinner").addClass("fa-lock");
+ 					$(this).removeClass("fa-spinner").removeClass("fa-lock").addClass("fa-lock").css("color", "");
  				});
 				
  				$(".send-msg-box").prop("disabled", false);
@@ -621,28 +621,33 @@ var AppView = Backbone.View.extend({
 	startDirectConnection: function(e) {
 		console.log("directConnection");
 		
-		$(".send-msg-box").prop("disabled", true);
-		$(".send-msg").prop("disabled", true);
+		if(typeof this.directConnection !== "undefined" && this.directConnection !== null) {
+			this.directConnection.close();
+			this.directConnection = null;
+		} else {
+			$(".send-msg-box").prop("disabled", true);
+			$(".send-msg").prop("disabled", true);
 		
-		var remoteEndpointId = $(e.currentTarget).data("email");
-		console.log(remoteEndpointId);
+			var remoteEndpointId = $(e.currentTarget).data("email");
+			console.log(remoteEndpointId);
 		
-		var localEndpointId = this.member.get("email");
-		console.log(localEndpointId);
+			var localEndpointId = this.member.get("email");
+			console.log(localEndpointId);
 		
-		$("i.directConnection[data-email='"+ remoteEndpointId +"']").each(function(){
-			$(this).removeClass("fa-lock").addClass("fa-spinner");
-		});
+			$("i.directConnection[data-email='"+ remoteEndpointId +"']").each(function(){
+				$(this).removeClass("fa-lock").addClass("fa-spinner");
+			});
 		
-		$("i.directConnection[data-email='"+ localEndpointId +"']").each(function(){
-			$(this).removeClass("fa-lock").addClass("fa-spinner");
-		});
+			$("i.directConnection[data-email='"+ localEndpointId +"']").each(function(){
+				$(this).removeClass("fa-lock").addClass("fa-spinner");
+			});
 		
-		var remoteEndpoint = this.client.getEndpoint({
-			id: remoteEndpointId
-		});
+			var remoteEndpoint = this.client.getEndpoint({
+				id: remoteEndpointId
+			});
 		
-		remoteEndpoint.startDirectConnection();
+			remoteEndpoint.startDirectConnection();
+		}
 	},
 	
 	voiceCall: function(e) {
