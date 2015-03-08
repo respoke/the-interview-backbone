@@ -99,13 +99,35 @@ ul.operations {
 	float: left;
 	position: absolute;
 	list-style-type: none;
-	margin-top: 6px;
+	margin-top: 8px;
 }
 
 ul.operations li {
 	float: left;
-	position: absolute;
+	position: relative;
 	color: #7D8E9A;
+	margin-right: 30px;
+}
+
+ul.operations li i.circle,
+ul.operations li i.circle:before {
+	border-radius: 50%;
+
+	vertical-align: middle;
+	text-align:center;
+
+
+	display:table;
+
+	border: 1px solid #7D8E9A;
+}
+
+ul.operations li i.circle {
+	padding: 5px;
+}
+
+ul.operations li i.circle:before {
+	padding: 5px;
 }
 
 .user-profiles{

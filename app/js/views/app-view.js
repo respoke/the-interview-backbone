@@ -106,7 +106,7 @@ var AppView = Backbone.View.extend({
 		});
 		
 		this.client.listen("call", function(e) {
-			console.log("call");
+			console.log("call", e);
 
 			var call = e.call;
 			
@@ -124,6 +124,7 @@ var AppView = Backbone.View.extend({
 			}
 			
 			call.listen("hangup", function() {
+				console.log("hangup", e);
 		    	//call = null;
 		    	//$('#callControls').hide();
 		  	});
@@ -656,9 +657,19 @@ var AppView = Backbone.View.extend({
 	asterisk: function(e) {
 		console.log("asterisk");
 		
-		this.call = this.client.startAudioCall({
-			endpointId: "sales"
-		});
+		var color = $(e.currentTarget).css("color");
+		console.log("color", color);
+		
+		if(color == "rgb(33, 184, 198)") {
+			this.call.hangup();
+			$(e.currentTarget).css("color", "");
+		} else {
+			$(e.currentTarget).css("color", "rgb(33, 184, 198)");
+		
+			this.call = this.client.startAudioCall({
+				endpointId: "sales"
+			});
+		}
 	},
 	
 	voiceCall: function(e) {
