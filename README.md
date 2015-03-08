@@ -27,4 +27,6 @@ open https://localhost/
 
 - To see Group Discovery, open two tabs of the app and login as different users. Both users will show up for each other.
 
-- Presence (INPROGRESS)...See, https://groups.google.com/a/digium.com/forum/#!topic/cloudplatform/1bvpZslkPok
+- To see Presence, click on one the logged in users to set their presence to away. Everyone in the group will see the presence updates.
+
+- To see DirectConnection, click on the padlock to create a DirectConnection. Once connected, any messages you send will be to that user only.
