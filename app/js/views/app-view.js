@@ -163,6 +163,21 @@ var AppView = Backbone.View.extend({
 		     directConnection.listen("close", function(e) {
 				 console.log("direct-connection close", e);
 		         _this.directConnection = null;
+				 
+ 				var remoteEndpointId = e.target.remoteEndpoint.id;
+		
+ 				var localEndpointId = _this.member.get("email");
+
+ 				$("i.directConnection[data-email='"+ remoteEndpointId +"']").each(function(){
+ 					$(this).removeClass("fa-spinner").addClass("fa-lock");
+ 				});
+
+ 				$("i.directConnection[data-email='"+ localEndpointId +"']").each(function(){
+ 					$(this).removeClass("fa-spinner").addClass("fa-lock");
+ 				});
+				
+ 				$(".send-msg-box").prop("disabled", false);
+ 				$(".send-msg").prop("disabled", false);
 		     });
 			 
 
@@ -492,9 +507,26 @@ var AppView = Backbone.View.extend({
 		
 						$(".messages").append(_.template($("#MessageTmpl").html())(message.toJSON())); //Add the Message to the View
 						
-						//Send message to endpointId using DirectConnect
-						console.log("dragDrop directConnection: ", _this.directConnection);
-						_this.directConnection.sendMessage({message: message.toJSON()});
+						if(typeof this.directConnection !== "undefined" && this.directConnection !== null) {
+							//Send the message to a 1:1 user using RTCDataChannel
+							console.log("dragDrop directConnection: ", _this.directConnection);
+							_this.directConnection.sendMessage({message: message.toJSON()});
+			
+							var localEndpointId = _this.member.get("email");
+							var remoteEndpointId = _this.directConnection.remoteEndpoint.id;
+			
+							$("i.directConnection[data-email='"+ remoteEndpointId +"']").each(function(){
+								$(this).css("color", "rgb(33, 184, 198)");
+							});
+
+							$("i.directConnection[data-email='"+ localEndpointId +"']").each(function(){
+								$(this).css("color", "rgb(33, 184, 198)");
+							});
+						} else {
+							//Send the message to the group
+							console.log("dragDrop group");
+							_this.group.sendMessage({message: message.toJSON()});
+						}
 					};
 				})(file, el);
 			
