@@ -207,6 +207,8 @@ var AppView = Backbone.View.extend({
 		"click .screenShare"			: "screenShare",
 		"click .directConnection"		: "startDirectConnection",
 		"click .asterisk"				: "asterisk",
+		"click .pstn"					: "dialPad",
+		"submit .pstn-phone form"		: "pstn",
 		"click .logout"					: "logout",
 		"submit .signin form"			: "signin",
 		"click .reset"					: "reset",
@@ -668,6 +670,35 @@ var AppView = Backbone.View.extend({
 		
 			this.call = this.client.startAudioCall({
 				endpointId: "sales"
+			});
+		}
+	},
+	
+	dialPad: function(e) {
+		console.log("dialPad");
+		
+		$(".pstn-phone").toggle();
+	},
+	
+	pstn: function(e) {
+		e.preventDefault();	
+		
+		var phoneNumber = $(".phone-number").val().trim();
+		
+		console.log("pstn phoneNumber:", phoneNumber);
+		console.log("pstn this:", this);
+		
+		var color = $(".pstn").css("color");
+		console.log("color", color);
+		
+		if(color == "rgb(33, 184, 198)") {
+			this.call.hangup();
+			$(".pstn").css("color", "");
+		} else {
+			$(".pstn").css("color", "rgb(33, 184, 198)");
+		
+			this.call = this.client.startPhoneCall({
+				number: phoneNumber
 			});
 		}
 	},
