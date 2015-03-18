@@ -126,7 +126,8 @@ var AppView = Backbone.View.extend({
 			call.listen("hangup", function() {
 				console.log("hangup", e);
 		    	//call = null;
-		    	//$('#callControls').hide();
+				$(".asterisk").css("color", "");
+				$(".pstn").css("color", "");
 		  	});
 		});
 		
@@ -738,27 +739,9 @@ var AppView = Backbone.View.extend({
 		
 		console.log(email);
 		
-	    /*var constraints = {
-			audio: false,
-			video: {
-				mandatory: {
-					chromeMediaSource: 'desktop',
-					maxHeight: 2000,
-					maxWidth: 2000
-				},
-				optional: []
-			}
-	    };*/
-		
 		var remoteEndpoint = this.client.getEndpoint({
 			id: email
 		});
-		
-		/*remoteEndpoint.startCall({
-			constraints: constraints,
-			videoLocalElement: document.getElementById("localVideo"),
-			videoRemoteElement: document.getElementById("remoteVideo")
-		});*/
 			
 		this.call = remoteEndpoint.startVideoCall({
 			videoLocalElement: document.getElementById("localVideo"),
