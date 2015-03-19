@@ -46,3 +46,9 @@ open https://localhost/
 
 - To call a cell phone, voip phone or landline on the PSTN, click the Boxes symbol to the left of the Asterisk (*) symbol. An input box will popup. Enter a phone number in the following format +15555555555 and hit enter. You will start to hear a ring in your app, then the phone you called will start to ring as well.
 
+
+#Running The Test Suite
+
+```
+gulp tests
+```

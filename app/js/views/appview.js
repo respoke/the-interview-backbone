@@ -1,5 +1,3 @@
-jQuery(document).ready(function($) {
- 
 var AppView = Backbone.View.extend({
 	el: $("#theinterview"),
 	
@@ -839,5 +837,3 @@ var AppView = Backbone.View.extend({
 
 window.appView = new AppView();
 
-
-});//document.ready

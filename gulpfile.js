@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var server = require('gulp-develop-server');
 var jasmine = require('gulp-jasmine');
+var karma = require('karma').server;
 //var runSequence = require('run-sequence');
 
 // run server
@@ -23,6 +24,14 @@ gulp.task('jasmine', function () {
         .pipe(jasmine());
 });
 
+gulp.task('karma', function (done) {
+	karma.start({
+		configFile: __dirname + '/karma.conf.js',
+		singleRun: false
+	}, done);
+});
+
+
 gulp.task('default', ['server:start', 'server:restart']);
 
-gulp.task('tests', ['jasmine']);
+gulp.task('tests', ['karma']);

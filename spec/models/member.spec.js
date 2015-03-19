@@ -10,13 +10,17 @@ describe("Member Model", function() {
 	});
 
 	describe("when instantiated", function() {
-		it("is valid without a value", function() {
+		it("is valid member", function() {
 			expect(member).toBeDefined();
 		});
 
-		it("exhibits valid attributes", function() {
+		it("has valid endpointId", function() {
 			member.set({"endpointId": "tvdavis@digium.com"});
-			expect(member.get("endpointId")).toEqual("tdavis@digium.com");
+			expect(member.get("endpointId")).toEqual("tvdavis@digium.com");
+		});
+		
+		it("urlRoot set to /api/tokens", function() {
+			expect(member.urlRoot).toEqual("/api/tokens");
 		});
 	});
 });
