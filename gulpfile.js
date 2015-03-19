@@ -19,10 +19,10 @@ gulp.task('server:restart', function() {
 	runSequence(['server:start', 'server:restart'], cb);
 });*/
 
-gulp.task('jasmine', function () {
+/*gulp.task('jasmine', function () {
     return gulp.src('./spec/*.spec.js')
         .pipe(jasmine());
-});
+});*/
 
 gulp.task('karma', function (done) {
 	karma.start({

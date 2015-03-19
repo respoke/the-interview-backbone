@@ -10,22 +10,33 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['mocha', 'chai'],
 
 
     // list of files / patterns to load in the browser
     files: [
-	  'bower_components/jquery/dist/jquery.js',
-	  //'bower_components/jquery-migrate/jquery-migrate.js',
-	  'bower_components/underscore/underscore.js',
-	  'bower_components/backbone/backbone.js',
-	  'bower_components/raphael/raphael.js',
-      'app/js/models/*.js',
-	  'app/js/collections/*.js',
-	  'app/js/config.js',
-	  'app/js/vendors/*.js',
-	  'app/js/views/*.js',
-      'spec/**/*.spec.js'
+		'bower_components/jquery/dist/jquery.js',
+		'bower_components/jquery-migrate/jquery-migrate.js',
+		'bower_components/underscore/underscore.js',
+		'bower_components/backbone/backbone.js',
+		'bower_components/json2/json2.js',
+		'bower_components/bootstrap/dist/js/bootstrap.js',
+		'bower_components/gravatarjs/gravatar.js',
+		'bower_components/moment/moment.js',
+		'bower_components/store-js/store.js',
+		'bower_components/jrumble/jquery.jrumble.js',
+		'bower_components/respoke/respoke.min.js',
+		'bower_components/raphael/raphael.js',
+		'app/js/vendors/raphael.sketchpad.js',
+
+		'app/js/config.js',
+		'app/js/models/*.js',
+		'app/js/collections/*.js',
+		'app/js/views/*.js',
+		
+		'node_modules/chai/chai.js',
+		'node_modules/sinon/pkg/sinon.js',
+		'spec/**/*.spec.js'
     ],
 
 
@@ -44,7 +55,17 @@ module.exports = function(config) {
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['mocha'],
-
+	
+	
+    hostname: 'localhost',
+	
+    proxyValidateSSL: false,
+	
+    proxies: {
+        '/': 'https://localhost/'
+    },
+	
+	//urlRoot: '__karma__',
 
     // web server port
     port: 9876,
@@ -65,8 +86,16 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
-
+    //browsers: ['PhantomJS'],
+    // Start these browsers, currently available:
+    browsers: ['ChromeAutoaccept'],
+	
+    customLaunchers: {
+        ChromeAutoaccept: {
+            base: 'Chrome',
+            flags: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream']
+        }
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

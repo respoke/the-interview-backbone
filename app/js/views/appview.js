@@ -2,15 +2,9 @@ var AppView = Backbone.View.extend({
 	el: $("#theinterview"),
 	
 	initialize: function() {
-		console.log("initialize app-view");
+		console.log("initialize appview");
 		
 		var _this = this;
-		
-		window.sketchpad = Raphael.sketchpad("whiteboard-canvas", {
-			width: "100%", //550
-			height: 200, //200
-			editing: true
-		});
 		
 		respoke.log.setLevel("debug");
 		
@@ -79,29 +73,40 @@ var AppView = Backbone.View.extend({
 	    	_this.member.save();
 	    });
 		
-		window.sketchpad.change(function() {
-			console.log("window.sketchpad.change");
+		
+		window.onload = function() {
+			window.sketchpad = Raphael.sketchpad("whiteboard-canvas", {
+				width: "100%", //550
+				height: 200, //200
+				editing: true
+			});
 			
-			var _this = window.appView;
+			window.sketchpad.change(function() {
+				console.log("window.sketchpad.change");
 			
-			if(typeof _this.directConnection !== "undefined" && _this.directConnection !== null) {
-				_this.directConnection.sendMessage({
-					message: {
-						whiteboard: sketchpad.strokes(),
-						member: _this.member.toJSON(),
-						type: "whiteboard"
-					}
-				});
-			} else {
-				_this.group.sendMessage({
-					message: {
-						whiteboard: sketchpad.strokes(),
-						member: _this.member.toJSON(),
-						type: "whiteboard"
-					}
-				});
-			}
-		});
+				var _this = window.appView;
+			
+				if(typeof _this.directConnection !== "undefined" && _this.directConnection !== null) {
+					_this.directConnection.sendMessage({
+						message: {
+							whiteboard: sketchpad.strokes(),
+							member: _this.member.toJSON(),
+							type: "whiteboard"
+						}
+					});
+				} else {
+					_this.group.sendMessage({
+						message: {
+							whiteboard: sketchpad.strokes(),
+							member: _this.member.toJSON(),
+							type: "whiteboard"
+						}
+					});
+				}
+			});
+		};
+		
+		
 		
 		this.client.listen("call", function(e) {
 			console.log("call", e);

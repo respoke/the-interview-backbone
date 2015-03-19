@@ -11,17 +11,17 @@ describe("Message Model", function() {
 
 	describe("when instantiated", function() {
 		it("is valid message", function() {
-			expect(message).toBeDefined();
+			expect(message).to.exist;
 		});
 	});
 	
 	describe("guid", function() {
 		it("creates successfully", function() {
-			expect(message).toBeDefined();
+			expect(message.guid()).to.not.be.an('undefined');
 		});
 
 		it("is valid", function() {
-			expect(message.guid()).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
+			expect(message.guid()).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
 		});
 	});
 });
