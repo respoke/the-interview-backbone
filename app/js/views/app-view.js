@@ -514,7 +514,7 @@ var AppView = Backbone.View.extend({
 		
 						$(".messages").append(_.template($("#MessageTmpl").html())(message.toJSON())); //Add the Message to the View
 						
-						if(typeof this.directConnection !== "undefined" && this.directConnection !== null) {
+						if(typeof _this.directConnection !== "undefined" && _this.directConnection !== null) {
 							//Send the message to a 1:1 user using RTCDataChannel
 							console.log("dragDrop directConnection: ", _this.directConnection);
 							_this.directConnection.sendMessage({message: message.toJSON()});
