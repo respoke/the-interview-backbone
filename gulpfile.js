@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var server = require('gulp-develop-server');
-var runSequence = require('run-sequence');
+var jasmine = require('gulp-jasmine');
+//var runSequence = require('run-sequence');
 
 // run server
 gulp.task('server:start', function() {
@@ -13,6 +14,15 @@ gulp.task('server:restart', function() {
 });
 
 // Build Production Files, the Default Task
-gulp.task('default', function (cb) {
+/*gulp.task('default', function (cb) {
 	runSequence(['server:start', 'server:restart'], cb);
+});*/
+
+gulp.task('jasmine', function () {
+    return gulp.src('./spec/*.spec.js')
+        .pipe(jasmine());
 });
+
+gulp.task('default', ['server:start', 'server:restart']);
+
+gulp.task('tests', ['jasmine']);
