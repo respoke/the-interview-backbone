@@ -28,7 +28,7 @@ describe("Member Model", function() {
 		it("should fire a callback when 'sync' is triggered", function() {
 			var spy = sinon.spy();
 			
-			member.bind("sync", spy);
+			member.on("sync", spy);
 			
 			member.trigger("sync");
 			
@@ -38,6 +38,7 @@ describe("Member Model", function() {
 		it("should fire a callback when save is executed", function() {
 			var spy = sinon.spy(jQuery, 'ajax');
 			
+			member.set("endpointId", "tvdavis@digium.com");
 			member.save();
 			
 			expect(spy.called).to.be.true;
@@ -47,12 +48,12 @@ describe("Member Model", function() {
 	});
 	
 	describe("respoke", function() {
-		it("should return an app token when save is executed", function() {
+		it("should call the /api/tokens to get a respoke temporary token", function() {
 			var spy = sinon.spy(jQuery, 'ajax');
 			
+			member.set("endpointId", "tvdavis@digium.com");
 			member.save();
-			
-			console.log("spy-hard:", spy.getCall(0).args);
+
 			expect(spy.getCall(0).args[0].url).to.equal("/api/tokens");
 			
 			jQuery.ajax.restore();

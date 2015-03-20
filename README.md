@@ -49,6 +49,13 @@ open https://localhost/
 
 #Running The Test Suite
 
+Make sure your server is running:
+
+```
+sudo gulp
+```
+
+Then run your tests:
 ```
 gulp tests
 ```

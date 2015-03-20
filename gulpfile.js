@@ -14,16 +14,7 @@ gulp.task('server:restart', function() {
 	gulp.watch( [ './server.js' ], server.restart );
 });
 
-// Build Production Files, the Default Task
-/*gulp.task('default', function (cb) {
-	runSequence(['server:start', 'server:restart'], cb);
-});*/
-
-/*gulp.task('jasmine', function () {
-    return gulp.src('./spec/*.spec.js')
-        .pipe(jasmine());
-});*/
-
+// start test server suite
 gulp.task('karma', function (done) {
 	karma.start({
 		configFile: __dirname + '/karma.conf.js',
@@ -31,7 +22,7 @@ gulp.task('karma', function (done) {
 	}, done);
 });
 
-
+// Build Production Files, the Default Task
 gulp.task('default', ['server:start', 'server:restart']);
 
 gulp.task('tests', ['karma']);
