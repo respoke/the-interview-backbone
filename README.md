@@ -5,7 +5,7 @@ npm install
 
 bower install
 
-sudo gulp 
+sudo NPM_CONFIG_PRODUCTION=false gulp
 
 open https://localhost/
 ```
@@ -29,7 +29,7 @@ open https://localhost/
 - Checkout server.js to see how Brokered Authentication is implemented for producton apps.
 
 
-- Type a message and hit [enter] or click [send] to send the message. Do this from a second instance of the app and you can start an "Audio Call", "Video Call" or "Screen Sharing" session with the group member you selected. NOTE: Screensharing requires https and our open source [chrome extension](https://github.com/respoke/respoke-chrome-extension).
+- Type a message and hit [enter] or click [send] to send the message. Do this from a second instance of the app and you can start an "Audio Call", "Video Call" or "Screen Sharing" session with the group member you selected. NOTE: Screensharing requires https and our open source [chrome extension](https://github.com/respoke/respoke-chrome-extension). Download the extension and add "https://localhost" to permissions and content_scripts#matches. Then [Load unpacked extension] at chrome://extensions/.
 
 
 - To see DirectConnection, click on the padlock to create a DirectConnection. Once connected, any messages you send will be to that user only instead of the entire group.
@@ -52,10 +52,24 @@ open https://localhost/
 Make sure your server is running:
 
 ```
-sudo gulp
+sudo NODE_ENV=development gulp
 ```
 
 Then run your tests:
 ```
 gulp tests
+```
+
+
+#Deploying To Heroku
+```
+heroku create the-interview
+
+heroku config:set NODE_ENV=production
+
+git push heroku master
+
+heroku ps:scale web=1
+
+heroku open
 ```
