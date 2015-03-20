@@ -68,10 +68,15 @@ gulp.task('scripts', function() {
 	.pipe(gulp.dest('./app/js/'));
 });
 
+gulp.task('watch', function() {
+    gulp.watch(['./app/css/*.css', '!./app/css/interview.css', 
+				'./app/js/**/*.js', '!./app/js/**/interview.js'], ['css', 'copy', 'scripts']);
+});
+
 
 // Build Production Files, the Default Task
-gulp.task('default', ['server:start', 'server:restart']);
-
-gulp.task('tests', ['karma']);
+gulp.task('default', ['server:start', 'server:restart', 'watch']);
 
 gulp.task('concat', ['css', 'copy', 'scripts']);
+
+gulp.task('tests', ['karma']);

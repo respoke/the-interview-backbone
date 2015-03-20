@@ -43,7 +43,7 @@ var AppView = Backbone.View.extend({
 			_this.client.setPresence({ presence: "available" });
 			
 			_this.client.join({
-				id: "the-interview-83938", 
+				id: "the-interview", 
 				
 				onSuccess: function(group) {
 					_this.group = group;
