@@ -5,7 +5,7 @@ npm install
 
 bower install
 
-sudo NPM_CONFIG_PRODUCTION=false gulp
+sudo NODE_ENV=development gulp
 
 open https://localhost/
 ```
