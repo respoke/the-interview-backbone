@@ -357,20 +357,22 @@ var AppView = Backbone.View.extend({
 		console.log("togglePresence", e);
 		console.log("togglePresence this", this);
 		
-		var _this = this;
+		var email = $(e.target).data("email");
 		
-		if(this.client.presence.toLowerCase() === "available") {
-			//Set client presence which will call the corresponding 
-			//endpoint presence for the rest of the group.
-            this.client.setPresence({
-				presence: "away"
-            });
-		}
+		if(this.member.get("email") === email) {
+			if(this.client.presence.toLowerCase() === "available") {
+				//Set client presence which will call the corresponding 
+				//endpoint presence for the rest of the group.
+	            this.client.setPresence({
+					presence: "away"
+	            });
+			}
 		
-		if(this.client.presence.toLowerCase() === "away") {
-            this.client.setPresence({
-                presence: "available"
-            });
+			if(this.client.presence.toLowerCase() === "away") {
+	            this.client.setPresence({
+	                presence: "available"
+	            });
+			}
 		}
 	},
 	
