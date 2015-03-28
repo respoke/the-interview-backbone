@@ -196,9 +196,11 @@ var AppView = Backbone.View.extend({
 		});
 		
 		// Filesharing events
-		$(".messages").on("dragover drop", ".message", this.dragDrop);
+		$(".container").on("dragover drop", ".top-header", this.dragDrop);
+		$(".container").on("dragleave", ".top-header", this.dragLeave);
 		
-		$(".messages").on("dragleave", ".message", this.dragLeave);
+		$(".content").on("dragover drop", ".msg-type-box", this.dragDrop);
+		$(".content").on("dragleave", ".msg-type-box", this.dragLeave);
     },
 
     // Map events to handler functions
