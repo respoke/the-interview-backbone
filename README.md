@@ -71,6 +71,12 @@ heroku create the-interview
 
 heroku config:set NODE_ENV=production
 
+heroku config:set APP_ID=YOUR_APP_ID
+
+heroku config:set APP_SECRET=YOUR_APP_SECRET
+
+heroku config:set ROLE_ID=YOUR_ROLE_ID
+
 git push heroku master
 
 heroku ps:scale web=1
