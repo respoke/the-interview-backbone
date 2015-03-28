@@ -436,7 +436,7 @@ var AppView = Backbone.View.extend({
 		
 		var messageTypes = {
 			"message": function(message) {
-				$(".messages").append(_.template($("#MessageTmpl").html())(message)); //Add the Message to the View
+				$(".messages").prepend(_.template($("#MessageTmpl").html())(message)); //Add the Message to the View
 				
 				console.log("handleMessage this.directConnection:", this.directConnection);
 				console.log("handleMessage this.directConnection this:", this);
@@ -521,7 +521,7 @@ var AppView = Backbone.View.extend({
 							type: "message"
 						});
 		
-						$(".messages").append(_.template($("#MessageTmpl").html())(message.toJSON())); //Add the Message to the View
+						$(".messages").prepend(_.template($("#MessageTmpl").html())(message.toJSON())); //Add the Message to the View
 						
 						if(typeof _this.directConnection !== "undefined" && _this.directConnection !== null) {
 							//Send the message to a 1:1 user using RTCDataChannel
