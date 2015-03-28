@@ -386,7 +386,7 @@ var AppView = Backbone.View.extend({
 		
 		console.log("sendMessage");
 		
-		var msg = $(".send-msg-box").val();
+		var msg = Autolinker.link(_.escape($(".send-msg-box").val()));
 		
 		var message = new Message();
 		

@@ -27,6 +27,7 @@ module.exports = function(config) {
 		'bower_components/jrumble/jquery.jrumble.js',
 		'bower_components/respoke/respoke.min.js',
 		'bower_components/raphael/raphael.js',
+		'bower_components/Autolinker.js/dist/Autolinker.js',
 		'app/js/vendors/raphael.sketchpad.js',
 
 		'app/js/config.js',

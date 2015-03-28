@@ -2,7 +2,8 @@
   "name": "interviewroom",
   "dependencies": {
     "jquery": "~1.11.2",
-    "bootstrap": "~3.2.0"
+    "bootstrap": "~3.2.0",
+    "Autolinker.js": "~0.15.2"
   },
   "devDependencies": {
     "font-awesome": "~4.2.0",

@@ -56,6 +56,7 @@ gulp.task('scripts', function() {
 		'./bower_components/jrumble/jquery.jrumble.js',
 		'./bower_components/respoke/respoke.min.js',
 		'./bower_components/raphael/raphael.js',
+		'bower_components/Autolinker.js/dist/Autolinker.js',
 		'./app/js/vendors/raphael.sketchpad.js',
 
 		'./app/js/config.js',
@@ -70,12 +71,13 @@ gulp.task('scripts', function() {
 
 gulp.task('watch', function() {
     gulp.watch(['./app/css/*.css', '!./app/css/interview.css', 
-				'./app/js/**/*.js', '!./app/js/**/interview.js'], ['css', 'copy', 'scripts']);
+				'./app/js/**/*.js', '!./app/js/**/interview.js',
+				'./app/*.html'], ['css', 'copy', 'scripts']);
 });
 
 
 // Build Production Files, the Default Task
-gulp.task('default', ['server:start', 'server:restart', 'watch']);
+gulp.task('default', ['server:start', 'server:restart', 'concat', 'watch']);
 
 gulp.task('concat', ['css', 'copy', 'scripts']);
 
