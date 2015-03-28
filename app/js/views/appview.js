@@ -373,6 +373,7 @@ var AppView = Backbone.View.extend({
 	},
 	
 	sendMessage: function(e) {	
+		console.log("sendMessage:", e);
 		e.preventDefault();	
 		
 		if(!this.member.has("name")) {
@@ -399,6 +400,7 @@ var AppView = Backbone.View.extend({
 		
 		$(".messages").append(_.template($("#MessageTmpl").html())(message.toJSON())); //Add the Message to the View
 		
+		$(".send-msg-box").val("");
 		
 		if(typeof this.directConnection !== "undefined" && this.directConnection !== null) {
 			//Send the message to a 1:1 user using RTCDataChannel
