@@ -5,10 +5,12 @@ npm install
 
 bower install
 
-sudo NODE_ENV=development gulp
+sudo NODE_ENV=development APP_ID=YOUR_APP_ID APP_SECRET=YOUR_APP_SECRET ROLE_ID=YOUR_ROLE_ID gulp
 
 open https://localhost/
 ```
+
+Do not put quotes around YOUR_APP_ID, YOUR_APP_SECRET or YOUR_ROLE_ID.
 
 #How To Drive
 - Enter your full name and gravatar email address and hit "Join Interview".
@@ -52,8 +54,10 @@ open https://localhost/
 Make sure your server is running:
 
 ```
-sudo NODE_ENV=development gulp
+sudo NODE_ENV=development APP_ID=YOUR_APP_ID APP_SECRET=YOUR_APP_SECRET ROLE_ID=YOUR_ROLE_ID gulp
 ```
+
+Do not put quotes around YOUR_APP_ID, YOUR_APP_SECRET or YOUR_ROLE_ID.
 
 Then run your tests:
 ```

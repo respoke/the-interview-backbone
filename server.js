@@ -26,13 +26,13 @@ router.route('/tokens')
 		
 		// Consider putting credentials like appId and appSecret into a configuration file
 		var respoke = new Respoke({
-			appId: '63c52041-5e91-456b-b450-48926feb3964',
-			'App-Secret': '679d4baf-7000-4e29-903e-23a825dc9e69'
+			appId: process.env.APP_ID,
+			'App-Secret': process.env.APP_SECRET
 		});
 		
 		respoke.auth.endpoint({
 			endpointId: endpointId, // The endpointId is the username entered by your app's end user
-			roleId: '1816CCA4-2E30-4B64-8FBC-F8E9D7AC7A36' // The roleId is the Id of endpoint role you created for permissions
+			roleId: process.env.ROLE_ID // The roleId is the Id of endpoint role you created for permissions
 		}, function (err, response) {
 			if (err) {
 				console.log('respoke.auth.endpoint', err);
