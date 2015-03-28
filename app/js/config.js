@@ -1,3 +1,4 @@
 _.templateSettings = {
-  interpolate: /\{\{(.+?)\}\}/g
+	interpolate: /\{\{(.+?)\}\}/g,
+	escape: /\{\{-(.*?)\}\}/g
 };
