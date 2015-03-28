@@ -366,6 +366,10 @@ div.pstn-phone {
 	display:inline-block;
 	background:url(../images/arrow1.png) no-repeat 0px 0px;
 }
+
+.message p {
+	overflow: hidden;
+}
 /*--//sign-in-box----*/
 /*----up-load-stats----*/
 .up-load-stats{
