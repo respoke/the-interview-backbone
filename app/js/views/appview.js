@@ -201,6 +201,11 @@ var AppView = Backbone.View.extend({
 		
 		$(".content").on("dragover drop", ".msg-type-box", this.dragDrop);
 		$(".content").on("dragleave", ".msg-type-box", this.dragLeave);
+		
+		// Phone Number Masked Input
+		$(".phone-number").mask("(999) 999-9999", { 
+			placeholder: " "
+		});
     },
 
     // Map events to handler functions
@@ -691,9 +696,10 @@ var AppView = Backbone.View.extend({
 	},
 	
 	pstn: function(e) {
+		console.log("pstn:", e);
 		e.preventDefault();	
 		
-		var phoneNumber = $(".phone-number").val().trim();
+		var phoneNumber = "+1".concat($(".phone-number").val().trim().replace(/[^0-9]/g, ''));
 		
 		console.log("pstn phoneNumber:", phoneNumber);
 		console.log("pstn this:", this);

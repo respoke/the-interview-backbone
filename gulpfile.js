@@ -56,7 +56,8 @@ gulp.task('scripts', function() {
 		'./bower_components/jrumble/jquery.jrumble.js',
 		'./bower_components/respoke/respoke.min.js',
 		'./bower_components/raphael/raphael.js',
-		'bower_components/Autolinker.js/dist/Autolinker.js',
+		'./bower_components/Autolinker.js/dist/Autolinker.js',
+		'./bower_components/jquery.maskedinput/dist/jquery.maskedinput.js',
 		'./app/js/vendors/raphael.sketchpad.js',
 
 		'./app/js/config.js',

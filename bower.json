@@ -3,7 +3,8 @@
   "dependencies": {
     "jquery": "~1.11.2",
     "bootstrap": "~3.2.0",
-    "Autolinker.js": "~0.15.2"
+    "Autolinker.js": "~0.15.2",
+    "jquery.maskedinput": "~1.4.1"
   },
   "devDependencies": {
     "font-awesome": "~4.2.0",
