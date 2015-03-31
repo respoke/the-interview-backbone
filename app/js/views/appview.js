@@ -115,7 +115,7 @@ var AppView = Backbone.View.extend({
 
 			var call = e.call;
 			
-			if(typeof call.toType !== "undefined" & call.toType !== null) {
+			if(typeof call.toType !== "undefined" && call.toType !== null) {
 				if(call.toType === "did") {
 					_this.callAudio.play();
 				}
