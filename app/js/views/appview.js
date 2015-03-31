@@ -26,6 +26,8 @@ var AppView = Backbone.View.extend({
 			$(".signin").show();
 		}
 		
+		this.callAudio = new Audio("../audio/incoming-call.wav");
+		
 		// Event Listeners
 		this.listenTo(this.member, "sync", this.connect);
 		
@@ -109,9 +111,15 @@ var AppView = Backbone.View.extend({
 		
 		
 		this.client.listen("call", function(e) {
-			console.log("call", e);
+			console.log("call event:", e);
 
 			var call = e.call;
+			
+			if(typeof call.toType !== "undefined" & call.toType !== null) {
+				if(call.toType === "did") {
+					_this.callAudio.play();
+				}
+			}
 			
 			if (call.caller !== true) {
 				_this.call = call.answer({
