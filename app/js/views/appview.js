@@ -685,7 +685,7 @@ var AppView = Backbone.View.extend({
 		var color = $(e.currentTarget).css("color");
 		console.log("color", color);
 		
-		if(color == "rgb(33, 184, 198)") {
+		if(typeof this.call !== "undefined" && this.call !== null) {
 			this.call.hangup();
 			$(e.currentTarget).css("color", "");
 		} else {
@@ -701,6 +701,11 @@ var AppView = Backbone.View.extend({
 		console.log("dialPad");
 		
 		$(".pstn-phone").toggle();
+		
+		if(typeof this.call !== "undefined" && this.call !== null) {
+			this.call.hangup();
+			$(".pstn").css("color", "");
+		}
 	},
 	
 	pstn: function(e) {
@@ -715,17 +720,13 @@ var AppView = Backbone.View.extend({
 		var color = $(".pstn").css("color");
 		console.log("color", color);
 		
-		if(color == "rgb(33, 184, 198)") {
-			this.call.hangup();
-			$(".pstn").css("color", "");
-		} else {
-			$(".pstn").css("color", "rgb(33, 184, 198)");
 		
-			this.call = this.client.startPhoneCall({
-				number: phoneNumber,
-				callerId: "+16146625045"
-			});
-		}
+		$(".pstn").css("color", "rgb(33, 184, 198)");
+	
+		this.call = this.client.startPhoneCall({
+			number: phoneNumber,
+			callerId: "+16146625045"
+		});
 	},
 	
 	voiceCall: function(e) {

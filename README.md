@@ -83,15 +83,15 @@ NOTE: Screensharing requires https and our open source [chrome extension](https:
 
 
 ##Asterisk Integration
-11) To call your Asterisk server, click on the Asterisk (*) symbol to the left. Click the Asterisk (*) symbol again to hangup:
+11) To call your Asterisk server, click on the Asterisk ( * ) symbol to the left. Click the Asterisk (*) symbol again to hangup:
 
 ![Asterisk](http://i.imgur.com/xew8mAc.png)
 
 
 ##Call Cell Phones and Landlines
-12) To call a cell phone, voip phone or landline on the PSTN, click the Boxes symbol to the left of the Asterisk (*) symbol. An input box will popup. Enter a phone number in the following format +15555555555 and hit enter. You will start to hear a ring in your app, then the phone you called will start to ring as well.
+12) To call a cell phone, voip phone or landline on the PSTN, click the dialpad symbol to the left of the Asterisk (*) symbol. An input dialpad will popup. Enter a phone number in the following format +15555555555 and hit enter. You will start to hear a ring in your app, then the phone you called will start to ring as well. Click the dialpad symbol again to hangup:
 
-![PSTN](http://i.imgur.com/ZEdfwv4.png)
+![PSTN](http://i.imgur.com/YDak4Vv.png)
 
 
 #Running The Test Suite
