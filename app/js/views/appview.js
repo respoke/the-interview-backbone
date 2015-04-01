@@ -115,13 +115,13 @@ var AppView = Backbone.View.extend({
 
 			var call = e.call;
 			
-			if(typeof call.toType !== "undefined" && call.toType !== null) {
-				if(call.toType === "did") {
-					_this.callAudio.play();
-				}
-			}
-			
 			if (call.caller !== true) {
+				if(typeof call.toType !== "undefined" && call.toType !== null) {
+					if(call.toType === "did") {
+						_this.callAudio.play();
+					}
+				}
+				
 				_this.call = call.answer({
 					videoLocalElement: document.getElementById("localVideo"),
 					videoRemoteElement: document.getElementById("remoteVideo")
