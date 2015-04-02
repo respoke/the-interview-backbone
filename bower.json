@@ -17,6 +17,6 @@
     "raphael": "~2.1.2",
     "jquery-migrate": "~1.2.1",
     "jrumble": "~1.3.0",
-    "respoke": "~1.21.0"
+    "respoke": "~1.*.*"
   }
 }
