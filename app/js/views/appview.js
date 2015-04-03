@@ -114,24 +114,55 @@ var AppView = Backbone.View.extend({
 			console.log("call event:", e);
 
 			var call = e.call;
+			_this.call = e.call;
+			
+			$(".pstn").css("color", "rgb(33, 184, 198)");
 			
 			if (call.caller !== true) {
-				if(typeof call.toType !== "undefined" && call.toType !== null) {
-					if(call.toType === "did") {
+				// Respond to landline or mobile phone call
+				if(typeof call.toType !== "undefined" || call.toType !== null) {
+					/*if(call.toType === "did") {
 						_this.callAudio.play();
-					}
-				}
-				
-				_this.call = call.answer({
-					videoLocalElement: document.getElementById("localVideo"),
-					videoRemoteElement: document.getElementById("remoteVideo")
-				});
-				
-				$(".fa-toggle-off").hide();
-				$(".fa-toggle-on").show();
+					}*/
+						
+					_this.callAudio.play();
+					
+					$(".message").data("id", "incoming-call-marker").remove();
+					
+					var message = new Message();
+					
+					var description = call.callerId.name.charAt(0).toUpperCase() + call.callerId.name.substring(1).toLowerCase();
+					
+					var number = phoneUtils.formatNational(call.callerId.number);
 		
-				$(".front").hide();
-				$(".back").show();
+					message.set({
+						email: "",
+						name: description,
+						message: _.template($("#IncomingCallTmpl").html())({number: number}),
+						id: "incoming-call-marker",
+						image: "../images/incoming-call.png",
+						timestamp: moment().format('h:mm'),
+						src: "",
+						title: "",
+						type: "message"
+					});
+		
+					console.log("incoming call message:", message);
+		
+					$(".messages").prepend(_.template($("#MessageTmpl").html())(message.toJSON())); //Add the Message to the View
+					
+				} else { // Respond to web video, voice or screensharing call
+					_this.call = call.answer({
+						videoLocalElement: document.getElementById("localVideo"),
+						videoRemoteElement: document.getElementById("remoteVideo")
+					});
+					
+					$(".fa-toggle-off").hide();
+					$(".fa-toggle-on").show();
+	
+					$(".front").hide();
+					$(".back").show();
+				}
 			}
 			
 			call.listen("hangup", function() {
@@ -228,6 +259,8 @@ var AppView = Backbone.View.extend({
 		"click .asterisk"				: "asterisk",
 		"click .pstn"					: "dialPad",
 		"submit .pstn-phone form"		: "pstn",
+		"click .decline-call"			: "declineCall",
+		"click .answer-call"			: "answerCall",
 		"click .logout"					: "logout",
 		"submit .signin form"			: "signin",
 		"click .reset"					: "reset",
@@ -704,7 +737,8 @@ var AppView = Backbone.View.extend({
 		
 		if(typeof this.call !== "undefined" && this.call !== null) {
 			this.call.hangup();
-			$(".pstn").css("color", "");
+			$(".message").data("id", "incoming-call-marker").remove();
+			$(".pstn").css("color", "");	
 		}
 	},
 	
@@ -729,6 +763,29 @@ var AppView = Backbone.View.extend({
 		});
 	},
 	
+	declineCall: function(e) {
+		console.log("declineCall:", e);
+		console.log("declineCall this:", this);
+		e.preventDefault();	
+		
+		$(e.target).css("color", "#3D0001").prop("disabled", true);
+		
+		this.call.answer();
+		this.call.hangup();
+		
+		$(".message").data("id", "incoming-call-marker").remove();
+	},
+	
+	answerCall: function(e) {
+		console.log("answerCall:", e);
+		console.log("answerCall this:", this);	
+		e.preventDefault();
+		
+		$(e.target).css("color", "#062107").prop("disabled", true);
+		
+		this.call.answer();
+	},
+
 	voiceCall: function(e) {
 		console.log("voiceCall");
 		

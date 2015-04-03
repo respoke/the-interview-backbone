@@ -15,29 +15,31 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-		'bower_components/jquery/dist/jquery.js',
-		'bower_components/jquery-migrate/jquery-migrate.js',
-		'bower_components/underscore/underscore.js',
-		'bower_components/backbone/backbone.js',
-		'bower_components/json2/json2.js',
-		'bower_components/bootstrap/dist/js/bootstrap.js',
-		'bower_components/gravatarjs/gravatar.js',
-		'bower_components/moment/moment.js',
-		'bower_components/store-js/store.js',
-		'bower_components/jrumble/jquery.jrumble.js',
-		'bower_components/respoke/respoke.min.js',
-		'bower_components/raphael/raphael.js',
-		'bower_components/Autolinker.js/dist/Autolinker.js',
-		'app/js/vendors/raphael.sketchpad.js',
+		'./bower_components/jquery/dist/jquery.js',
+		'./bower_components/jquery-migrate/jquery-migrate.js',
+		'./bower_components/underscore/underscore.js',
+		'./bower_components/backbone/backbone.js',
+		'./bower_components/json2/json2.js',
+		'./bower_components/bootstrap/dist/js/bootstrap.js',
+		'./bower_components/gravatarjs/gravatar.js',
+		'./bower_components/moment/moment.js',
+		'./bower_components/store-js/store.js',
+		'./bower_components/jrumble/jquery.jrumble.js',
+		'./bower_components/respoke/respoke.min.js',
+		'./bower_components/raphael/raphael.js',
+		'./bower_components/Autolinker.js/dist/Autolinker.js',
+		'./bower_components/jquery.maskedinput/dist/jquery.maskedinput.js',
+		'./bower_components/libphonenumber/dist/libphonenumber.js',
+		'./app/js/vendors/raphael.sketchpad.js',
 
-		'app/js/config.js',
-		'app/js/models/*.js',
-		'app/js/collections/*.js',
-		'app/js/views/*.js',
+		'./app/js/config.js',
+		'./app/js/models/*.js',
+		'./app/js/collections/*.js',
+		'./app/js/views/*.js',
 		
-		'node_modules/chai/chai.js',
-		'node_modules/sinon/pkg/sinon.js',
-		'spec/**/*.spec.js'
+		'./node_modules/chai/chai.js',
+		'./node_modules/sinon/pkg/sinon.js',
+		'./spec/**/*.spec.js'
     ],
 
 
