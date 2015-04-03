@@ -94,6 +94,19 @@ NOTE: Screensharing requires https and our open source [chrome extension](https:
 ![PSTN](http://i.imgur.com/YDak4Vv.png)
 
 
+##Outbound Caller Id
+
+13) Using the international number formatting format [E.164](http://en.wikipedia.org/wiki/E.164#DNS_mapping_of_E.164_numbers), the international public telecommunication numbering plan, you set your caller id using the callerId option for client.startPhoneCall:
+
+![client.startPhoneCall callerId](http://i.imgur.com/0F5Pvnb.png)
+
+##Inbound CallerId
+
+14) Call your app's assigned phone number. You'll trigger a call event. At which point the call object will be composed of a callerId object. The callerId object will consist of properties like number and name:
+
+![Inbound CallerId UI](http://i.imgur.com/hCvySQy.png)
+
+
 #Running The Test Suite
 
 Make sure your server is running:
