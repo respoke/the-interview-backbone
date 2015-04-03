@@ -170,7 +170,6 @@ var AppView = Backbone.View.extend({
 		    	//call = null;
 				$(".asterisk").css("color", "");
 				$(".pstn").css("color", "");
-				$(".message").data("id", "incoming-call-marker").remove();
 		  	});
 		});
 		
