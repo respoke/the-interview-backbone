@@ -170,6 +170,9 @@ var AppView = Backbone.View.extend({
 		    	//call = null;
 				$(".asterisk").css("color", "");
 				$(".pstn").css("color", "");
+				
+				$(".message .call-options button").hide();
+				$(".message .call-options").append("<p>You have a missed call.</p>");
 		  	});
 		});
 		
