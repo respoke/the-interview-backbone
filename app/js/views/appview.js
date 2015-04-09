@@ -116,63 +116,62 @@ var AppView = Backbone.View.extend({
 			var call = e.call;
 			_this.call = e.call;
 			
-			$(".pstn").css("color", "rgb(33, 184, 198)");
-			
 			if (call.caller !== true) {
 				// Respond to landline or mobile phone call
 				if(typeof call.toType !== "undefined" || call.toType !== null) {
-					/*if(call.toType === "did") {
+					if(call.toType === "did") {
+						$(".pstn").css("color", "rgb(33, 184, 198)");
 						_this.callAudio.play();
-					}*/
-						
-					_this.callAudio.play();
 					
-					$(".message").data("id", "incoming-call-marker").remove();
+						$(".message[data-id='incoming-call-marker']").remove();
 					
-					var message = new Message();
+						var message = new Message();
 					
-					var description = call.callerId.name.charAt(0).toUpperCase() + call.callerId.name.substring(1).toLowerCase();
+						var description = call.callerId.name.charAt(0).toUpperCase() + call.callerId.name.substring(1).toLowerCase();
 					
-					var number = phoneUtils.formatNational(call.callerId.number);
+						var number = phoneUtils.formatNational(call.callerId.number);
 		
-					message.set({
-						email: "",
-						name: description,
-						message: _.template($("#IncomingCallTmpl").html())({number: number}),
-						id: "incoming-call-marker",
-						image: "../images/incoming-call.png",
-						timestamp: moment().format('h:mm'),
-						src: "",
-						title: "",
-						type: "message"
-					});
+						message.set({
+							email: "",
+							name: description,
+							message: _.template($("#IncomingCallTmpl").html())({number: number}),
+							id: "incoming-call-marker",
+							image: "../images/incoming-call.png",
+							timestamp: moment().format('h:mm'),
+							src: "",
+							title: "",
+							type: "message"
+						});
 		
-					console.log("incoming call message:", message);
+						console.log("incoming call message:", message);
 		
-					$(".messages").prepend(_.template($("#MessageTmpl").html())(message.toJSON())); //Add the Message to the View
+						$(".messages").prepend(_.template($("#MessageTmpl").html())(message.toJSON())); //Add the Message to the View
+					} else { // Respond to web video, voice or screensharing call
+						_this.call = call.answer({
+							videoLocalElement: document.getElementById("localVideo"),
+							videoRemoteElement: document.getElementById("remoteVideo")
+						});
 					
-				} else { // Respond to web video, voice or screensharing call
-					_this.call = call.answer({
-						videoLocalElement: document.getElementById("localVideo"),
-						videoRemoteElement: document.getElementById("remoteVideo")
-					});
-					
-					$(".fa-toggle-off").hide();
-					$(".fa-toggle-on").show();
+						$(".fa-toggle-off").hide();
+						$(".fa-toggle-on").show();
 	
-					$(".front").hide();
-					$(".back").show();
-				}
+						$(".front").hide();
+						$(".back").show();
+					}
+				} 
 			}
 			
 			call.listen("hangup", function() {
 				console.log("hangup", e);
-		    	//call = null;
+		    	_this.call = null;
 				$(".asterisk").css("color", "");
 				$(".pstn").css("color", "");
 				
 				$(".message .call-options button").hide();
-				$(".message .call-options").append("<p>You have a missed call.</p>");
+				//$(".message .call-options").append("<p>You have a missed call.</p>");
+				
+				$("#localVideo").attr("src", "");
+				$("#remoteVideo").attr("src", "");
 		  	});
 		});
 		
@@ -718,14 +717,14 @@ var AppView = Backbone.View.extend({
 	asterisk: function(e) {
 		console.log("asterisk");
 		
-		var color = $(e.currentTarget).css("color");
+		var color = $(".asterisk").css("color");
 		console.log("color", color);
 		
-		if(typeof this.call !== "undefined" && this.call !== null) {
+		if(color == "rgb(33, 184, 198)") {
 			this.call.hangup();
-			$(e.currentTarget).css("color", "");
+			$(".asterisk").css("color", "");
 		} else {
-			$(e.currentTarget).css("color", "rgb(33, 184, 198)");
+			$(".asterisk").css("color", "rgb(33, 184, 198)");
 		
 			this.call = this.client.startAudioCall({
 				endpointId: "sales"
@@ -776,7 +775,7 @@ var AppView = Backbone.View.extend({
 		this.call.answer();
 		this.call.hangup();
 		
-		$(".message").data("id", "incoming-call-marker").remove();
+		$(".message[data-id='incoming-call-marker']").remove();
 	},
 	
 	answerCall: function(e) {
@@ -877,6 +876,9 @@ var AppView = Backbone.View.extend({
 		console.log("hangupVideo");
 		console.log(this);
 		this.client.calls[0].hangup();
+		
+		$("#localVideo").attr("src", "");
+		$("#remoteVideo").attr("src", "");
 	},
 	
 	showVideoControls: function(e) {
@@ -900,7 +902,7 @@ var AppView = Backbone.View.extend({
 		
 		this.member.clear();
 		
-		$(".user-profile li").remove();
+		$(".user-profiles li").remove();
 		
 		$(".message").remove();
 		

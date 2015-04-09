@@ -61,7 +61,7 @@ Do this from a second instance of the app and you can start an "Audio Call", "Vi
 
 ![Conversation](http://i.imgur.com/Mz8gAa8.png)
 
-NOTE: Screensharing requires https and our open source [chrome extension](https://github.com/respoke/respoke-chrome-extension). Download the extension and add "https://localhost" to permissions and content_scripts#matches. Then [Load unpacked extension] at chrome://extensions/.
+NOTE: Screensharing requires https and our open source [chrome extension](https://github.com/respoke/respoke-chrome-screen-sharing-extension). Download the extension and add "https://localhost" to permissions and content_scripts#matches. Then [Load unpacked extension] at chrome://extensions/.
 
 
 ##DirectConnection
