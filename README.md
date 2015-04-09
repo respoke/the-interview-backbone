@@ -135,7 +135,7 @@ heroku config:set APP_SECRET=YOUR_APP_SECRET
 
 heroku config:set ROLE_ID=YOUR_ROLE_ID
 
-git push heroku master
+git push heroku master -f
 
 heroku ps:scale web=1
 
