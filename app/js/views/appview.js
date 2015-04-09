@@ -450,7 +450,7 @@ var AppView = Backbone.View.extend({
 			type: "message"
 		});
 		
-		$(".messages").append(_.template($("#MessageTmpl").html())(message.toJSON())); //Add the Message to the View
+		$(".messages").prepend(_.template($("#MessageTmpl").html())(message.toJSON())); //Add the Message to the View
 		
 		$(".send-msg-box").val("");
 		
