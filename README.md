@@ -125,7 +125,7 @@ gulp tests
 
 #Deploying To Heroku
 ```
-heroku create the-interview
+heroku create YOUR_HEROKU_APP_NAME
 
 heroku config:set NODE_ENV=production
 
