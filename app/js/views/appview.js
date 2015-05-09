@@ -1,4 +1,4 @@
-var AppView = Backbone.View.extend({
+	var AppView = Backbone.View.extend({
 	el: $("#theinterview"),
 	
 	initialize: function() {
@@ -161,7 +161,7 @@ var AppView = Backbone.View.extend({
 				} 
 			}
 			
-			call.listen("hangup", function() {
+			call.listen("hangup", function(e) {
 				console.log("hangup", e);
 		    	_this.call = null;
 				$(".asterisk").css("color", "");
@@ -772,7 +772,6 @@ var AppView = Backbone.View.extend({
 		
 		$(e.target).css("color", "#3D0001").prop("disabled", true);
 		
-		this.call.answer();
 		this.call.hangup();
 		
 		$(".message[data-id='incoming-call-marker']").remove();
