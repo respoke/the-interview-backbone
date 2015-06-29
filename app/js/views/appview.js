@@ -730,7 +730,8 @@
 			this.call.hangup();
 			this.conferenceGroup.leave();
 			
-			//$("ul.conference-profiles li img[data-email='" + this.client.endpointId +"']").parent().remove();
+			//When you leave a Group, clean the whole Group UI
+			$("ul.conference-profiles").empty();
 			
 			$(".conference").css("color", "");
 		} else {
