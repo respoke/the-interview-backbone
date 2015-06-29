@@ -67,7 +67,7 @@ gulp.task('scripts', function() {
 		'./app/js/views/*.js'
     ])
 	.pipe(concat('interview.js'))
-	.pipe(uglify())
+	//.pipe(uglify())
 	.pipe(gulp.dest('./app/js/'));
 });
 

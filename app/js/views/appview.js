@@ -728,20 +728,109 @@
 		
 		if(color == "rgb(33, 184, 198)") {
 			this.call.hangup();
+			this.conferenceGroup.leave();
+			
+			//$("ul.conference-profiles li img[data-email='" + this.client.endpointId +"']").parent().remove();
+			
 			$(".conference").css("color", "");
 		} else {
 			$(".conference").css("color", "rgb(33, 184, 198)");
 		
-			this.group.joinConference({
+			this.conference = this.group.joinConference({
 				onConnect: function(e) {
 					console.log("group.joinConference#onConnect", e);
 					_this.call = e.call;
+					
+					_this.client.join({
+						id: "the-interview-conference", 
+				
+						onSuccess: function(conferenceGroup) {
+							_this.conferenceGroup = conferenceGroup;
+							console.log("client.join#conferenceGroup", conferenceGroup);
+					
+			                conferenceGroup.listen("join", function(e) {
+								console.log("conferenceGroup.listen#join", e);
+								
+								var endpoint = e.connection.getEndpoint();
+			                	
+								var member = new Member({
+									email: endpoint.id,
+									endpointId: endpoint.id,
+									image: gravatar(endpoint.id, {size: 110}),
+									endpoint: endpoint
+								});
+								
+								console.log("conferenceGroup.listen#member", member);
+		
+								$(".conference-profiles").append(_.template($("#ConferenceTmpl").html())(member.toJSON()));
+			                });
+					
+			                conferenceGroup.listen("leave", function(e) {
+								console.log("conferenceGroup.listen#leave", e);
+								
+								var endpoint = e.connection.getEndpoint();
+								
+			                	$("ul.conference-profiles li img[data-email='" + endpoint.id +"']").parent().remove();
+			                });
+					
+							//Group Discovery
+							conferenceGroup.getMembers({	
+								onSuccess: function(connections) {
+									console.log("conferenceGroup.getMembers", connections);
+									
+									_.each(connections, function(connection) {
+										var endpoint = connection.getEndpoint();
+										console.log("conferenceGroup.getMembers#endpoint", endpoint);
+			                	
+										var member = new Member({
+											email: endpoint.id,
+											endpointId: endpoint.id,
+											image: gravatar(endpoint.id, {size: 110}),
+											endpoint: endpoint
+										});
+										
+										console.log("conferenceGroup.getMembers#member", member);
+		
+										$(".conference-profiles").append(_.template($("#ConferenceTmpl").html())(member.toJSON()));
+									});
+								}
+							});
+						}
+					});
+					
+					/*var conference = _this.conference;
+					
+					conference.listen("join", function(e) {
+						console.log("conference#join", e);
+					});
+			
+					conference.listen("leave", function(e) {
+						console.log("conference#join", e);
+					});
+			
+					conference.getParticipants({
+						onSuccess: function(participants) {
+							console.log("conference.getParticipants", participants);
+						}
+					});*/
+				}/*,
+				
+				onJoin: function(e) {
+					console.log("conference#onJoin", e);
+				},
+				
+				onLeave: function(e) {
+					console.log("conference#onLeave", e);
 				},
 			
 				onHangup: function(e) {
 					_this.call = null;
-				}
+				}*/
 			});
+			
+			console.log("conference:", this.conference);
+			
+			
 		}
 	},
 	

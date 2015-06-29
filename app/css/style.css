@@ -130,17 +130,17 @@ ul.operations li i.circle:before {
 	padding: 5px;
 }
 
-.user-profiles{
+.user-profiles, .conference-profiles {
 	position:relative;
 }
-.user-profiles li{
+.user-profiles li, .conference-profiles li {
 	position:relative;
 }
-.user-profiles li ul.sub{
+.user-profiles li ul.sub, .conference-profiles li ul.sub {
 	position:absolute;
 	display:none;
 }
-.user-profiles li:hover ul.sub{
+.user-profiles li:hover ul.sub, .conference-profiles li:hover ul.sub {
 	display:block;
 }
 ul.sub{
@@ -1371,7 +1371,7 @@ span.s-drop1{
 	.usernotifications ul:nth-child(2),.usernotifications ul:nth-child(3){
 		display:none;
 	}
-	.user-profiles li:hover ul.sub {
+	.user-profiles li:hover ul.sub, .conference-profiles li:hover ul.sub {
 		display: block;
 		right: -7px;
 		top: 30px;
