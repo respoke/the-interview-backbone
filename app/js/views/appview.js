@@ -161,6 +161,10 @@
 				} 
 			}
 			
+		    call.listen("connect", function (e) {
+		        console.log("call.listen#connect", e);
+		    });
+			
 			call.listen("hangup", function(e) {
 				console.log("hangup", e);
 		    	_this.call = null;
@@ -258,6 +262,7 @@
 		"click .videoCall"				: "videoCall",
 		"click .screenShare"			: "screenShare",
 		"click .directConnection"		: "startDirectConnection",
+		"click .conference"				: "conference",
 		"click .asterisk"				: "asterisk",
 		"click .pstn"					: "dialPad",
 		"submit .pstn-phone form"		: "pstn",
@@ -711,6 +716,32 @@
 			});
 		
 			remoteEndpoint.startDirectConnection();
+		}
+	},
+	
+	conference: function() {
+		console.log("conference");
+		
+		var _this = this;
+		
+		var color = $(".conference").css("color");
+		
+		if(color == "rgb(33, 184, 198)") {
+			this.call.hangup();
+			$(".conference").css("color", "");
+		} else {
+			$(".conference").css("color", "rgb(33, 184, 198)");
+		
+			this.group.joinConference({
+				onConnect: function(e) {
+					console.log("group.joinConference#onConnect", e);
+					_this.call = e.call;
+				},
+			
+				onHangup: function(e) {
+					_this.call = null;
+				}
+			});
 		}
 	},
 	
