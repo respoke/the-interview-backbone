@@ -1,9 +1,9 @@
-var express		= require('express');
-var app			= express();
-var bodyParser	= require('body-parser');
-var Respoke		= require('respoke-admin');
-var https 		= require('https');
-var http 		= require('http');
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+var Respoke = require('respoke-admin');
+var https = require('https');
+var http = require('http');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

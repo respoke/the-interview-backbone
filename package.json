@@ -2,13 +2,14 @@
   "name": "the-interview",
   "version": "1.0.0",
   "description": "Demo application of how to use the Respoke API.",
-  "engines": {
-    "node": "0.10.32"
-  },
   "main": "server.js",
   "scripts": {
     "start": "node server",
 	"postinstall": "bower install && gulp concat"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/respoke/the-interview-backbone"
   },
   "author": "The Respoke Team",
   "license": "MIT",
@@ -40,6 +41,5 @@
     "respoke-admin": "^1.0.2",
     "run-sequence": "^1.0.2",
     "sinon": "^1.14.1"
-  },
-  "devDependencies": {}
+  }
 }

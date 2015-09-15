@@ -1,9 +1,7 @@
 #Install The Dependencies
 
-```
-npm install
-
-bower install
+```bash
+npm install # will also install bower dependencies
 
 sudo NODE_ENV=development APP_ID=YOUR_APP_ID APP_SECRET=YOUR_APP_SECRET ROLE_ID=YOUR_ROLE_ID gulp
 
