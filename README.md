@@ -1,3 +1,7 @@
+# Interview room
+
+This is an example app you can use to conduct an interview. It uses [Respoke](https://www.respoke.io), Node.js, and Backbone.
+
 #Install The Dependencies
 
 ```bash
